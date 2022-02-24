@@ -4,3 +4,4 @@ env.py
 Lessons/
 __pycache__ 
 *.csv
+*.xlsx
