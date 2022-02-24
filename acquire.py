@@ -13,7 +13,7 @@ def get_titantic_data():
         FROM passengers'''
 
     df = pd.read_sql(query,get_db_url('titanic_db'))
-    df.to_csv(filename)
+    df.to_csv(filename, index=False)
     return df
 
 def get_iris_data():
@@ -28,7 +28,7 @@ def get_iris_data():
         USING (species_id)'''
 
     df = pd.read_sql(query,get_db_url('iris_db'))
-    df.to_csv(filename)
+    df.to_csv(filename, index=False)
     return df
 
 def get_telco_data():
@@ -47,5 +47,12 @@ def get_telco_data():
         USING (payment_type_id)'''
         
     df = pd.read_sql(query,get_db_url('telco_churn'))
-    df.to_csv(filename)
+    df.to_csv(filename, index=False)
     return df
+
+def prep_iris(iris):
+    iris = iris.drop(columns=['species_id','measurement_id'])
+    dummy_df = pd.get_dummies(iris[['species_name']], dummy_na=False)
+    iris = pd.concat([iris, dummy_df], axis = 1)
+
+    return iris
