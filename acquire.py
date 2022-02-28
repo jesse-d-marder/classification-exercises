@@ -6,6 +6,7 @@ def get_titantic_data():
     """Return titanic data from codeup data science database as a pandas data frame"""
     filename = 'titantic.csv'
     if os.path.exists(filename):
+        print("Using cached data")
         return pd.read_csv(filename)
 
     query = '''
@@ -20,7 +21,9 @@ def get_iris_data():
     """Return iris data from codeup data science database as a pandas data frame"""
     filename = 'iris.csv'
     if os.path.exists(filename):
+        print("Using cached data")
         return pd.read_csv(filename)
+    
     query = '''
         SELECT *
         FROM measurements
@@ -35,7 +38,9 @@ def get_telco_data():
     """Return data from telco_churn database in SQL as a pandas data frame"""
     filename = 'telco.csv'
     if os.path.exists(filename):
+        print("Using cached data")
         return pd.read_csv(filename)
+    
     query = '''
         SELECT *
         FROM customers
@@ -50,9 +55,3 @@ def get_telco_data():
     df.to_csv(filename, index=False)
     return df
 
-def prep_iris(iris):
-    iris = iris.drop(columns=['species_id','measurement_id'])
-    dummy_df = pd.get_dummies(iris[['species_name']], dummy_na=False)
-    iris = pd.concat([iris, dummy_df], axis = 1)
-
-    return iris
