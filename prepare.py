@@ -4,9 +4,10 @@ from env import get_db_url
 
 def prep_iris(iris):
     iris = iris.drop(columns=['species_id','measurement_id'])
-    # Encode the species name - not useful as this will be the target
-    # dummy_df = pd.get_dummies(iris[['species_name']], dummy_na=False)
-    # iris = pd.concat([iris, dummy_df], axis = 1)
+    iris = iris.rename(columns={'species_name':'species'})
+    dummy_df = pd.get_dummies(iris[['species']], dummy_na=False, drop_first=[True])
+    iris = pd.concat([iris, dummy_df], axis = 1)
+    iris = iris.drop(columns=['species'])
 
     return iris
 
@@ -23,6 +24,8 @@ def prep_telco(df):
     df = df.replace(" ",np.nan)
     # Drop the rows with NAs 
     df = df.dropna()
+    # Change total_charges type to float
+    df.total_charges = df.total_charges.astype('float64')
     # Drop unnecessary foreign key ids
     df = df.drop(columns=['payment_type_id','internet_service_type_id','contract_type_id'])
     # Determine the categorical variables - here defined as object data type (non-numeric) and with fewer than 5 values
