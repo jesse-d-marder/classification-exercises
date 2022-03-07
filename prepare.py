@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from env import get_db_url
 from sklearn.model_selection import train_test_split
 
